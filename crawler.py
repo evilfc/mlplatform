@@ -72,3 +72,34 @@ if m:
 #print rnd_n
 #print pwd
 #print vkey
+
+"""
+第三步：输入用户名和密码请求登录，这步使用的方法是POST方法。requests的POST方法data属性包含的是form_data，而请求时在URL中添加的参数不知道从哪里输入，所以这里将它们直接写在请求的URL中
+"""
+#上一步得到的随机数在请求的URL中会用到
+s3_url = "http://login.weibo.cn/login/?" + rnd_n + "&backURL=http%3A%2F%2Fweibo.cn%2F&backTitle=%E5%BE%AE%E5%8D%9A&vt=4&revalid=2&ns=1"
+s3_header = {
+        "Accept":"text/html, application/xhtml+xml, application/xml;q=0.9, image/webp, */*, q=0.8",
+        "Accept-Encoding":"gzip, deflate, sdch",
+        "Accept-Language":"zh-CN, zh;q=0.8",
+        "Cache-Control":"max-age=0",
+        "Connection":"keep-alive",
+        "Content-Type":"application/x-www-form-urlencoded",
+        "Upgrade-Insecure-Requests":"1",
+        "User-Agent":"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36) (KHTML, like Gecko) Ubuntu Chromium/47.0.2526.73 Safari/537.36"
+}
+s3_header['Cookie'] = "_T_WM=%s" % s1_cookie
+s3_payload = {
+        "mobile":"",
+        "backURL":"http%3A%2F%2Fweibo.cn%2F",
+        "backTitle":"%E5%BE%AE%E5%8D%9A",
+        "remember":"on",
+        "tryCount":"",
+        "submit":"%E7%99%BB%E5%BD%95"
+}
+s3_payload[pwd] = ""
+s3_payload["vk"] = vkey
+r = requests.post(s3_url, headers=s3_header, data=s3_payload)
+print r.status_code
+r = requests.post(s3_url, headers=s3_header, data=s3_payload)
+print r.status_code
